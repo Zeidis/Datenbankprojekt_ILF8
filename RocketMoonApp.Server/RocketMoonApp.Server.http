@@ -1,0 +1,6 @@
+@RocketMoonApp.Server_HostAddress = http://localhost:5285
+
+GET {{RocketMoonApp.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
