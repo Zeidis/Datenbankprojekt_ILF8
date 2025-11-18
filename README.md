@@ -86,6 +86,13 @@ RocketMoonApp/
     npm start
     ```
 
+### Server Stoppen falls Fehler bei wiederholten starten fehler auftretem
+
+   ```bash
+      taskkill /IM dotnet.exe /F                          
+      taskkill /IM node.exe /F
+   ```
+
 ## Deployment
 
 Für das Deployment können die Projekte separat gebaut und auf den entsprechenden Plattformen bereitgestellt werden. Weitere Details folgen in der Dokumentation.
