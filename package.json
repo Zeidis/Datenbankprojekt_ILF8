@@ -1,0 +1,11 @@
+{
+    "name": "react-aspnet-starter",
+    "scripts": {
+        "start:backend": "cd RocketMoonApp.Server && dotnet run",
+        "start:frontend": "cd rocketmoonapp.client && npm run dev",
+        "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    }
+}
