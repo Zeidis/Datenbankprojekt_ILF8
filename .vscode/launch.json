@@ -1,0 +1,55 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Launch Backend (ASP.NET Core)",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build",
+        "program": "${workspaceFolder}/RocketMoonApp.Server/bin/Debug/net9.0/RocketMoonApp.Server.dll",
+        "args": [],
+        "cwd": "${workspaceFolder}/RocketMoonApp.Server",
+        "stopAtEntry": false,
+        "serverReadyAction": {
+          "action": "openExternally",
+          "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+        },
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        },
+        "sourceFileMap": {
+          "/Views": "${workspaceFolder}/Views"
+        }
+      },
+      {
+        "name": "Launch Frontend (React)",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:5173",
+        "webRoot": "${workspaceFolder}/rocketmoonapp.client",
+        "sourceMapPathOverrides": {
+          "webpack:///./src/*": "${webRoot}/src/*"
+        }
+      },
+      {
+        "name": "Launch Full App (Backend + Frontend)",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "Start Frontend",
+        "program": "${workspaceFolder}/RocketMoonApp.Server/bin/Debug/net9.0/RocketMoonApp.Server.dll",
+        "args": [],
+        "cwd": "${workspaceFolder}/RocketMoonApp.Server",
+        "stopAtEntry": false,
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        }
+      }
+    ],
+    "compounds": [
+      {
+        "name": "Debug Full Stack",
+        "configurations": ["Launch Backend (ASP.NET Core)", "Launch Frontend (React)"],
+        "stopAll": true
+      }
+    ]
+  }
