@@ -2,6 +2,21 @@
     "version": "2.0.0",
     "tasks": [
       {
+        "label": "npm: install",
+        "type": "shell",
+        "command": "npm install",
+        "options": {
+          "cwd": "${workspaceFolder}/rocketmoonapp.client"
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "echo": true,
+          "reveal": "silent",
+          "focus": false,
+          "panel": "shared"
+        }
+      },
+      {
         "label": "build",
         "command": "dotnet",
         "type": "process",
@@ -20,6 +35,7 @@
         "options": {
           "cwd": "${workspaceFolder}/rocketmoonapp.client"
         },
+        "dependsOn": ["npm: install"],
         "isBackground": true,
         "problemMatcher": {
           "pattern": {
