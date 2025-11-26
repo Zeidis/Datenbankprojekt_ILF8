@@ -3,6 +3,6 @@
     public class MoonPhaseApiRequest
     {
         public DateTime Date { get; set; }
-        public int? Nump { get; set; }
+        public int Nump { get; set; } = 1;
     }
 }

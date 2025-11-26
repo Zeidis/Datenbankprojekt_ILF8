@@ -19,25 +19,11 @@ var app = builder.Build();
 app.UseDefaultFiles();
 app.MapStaticAssets();
 
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
-
-
-app.MapGet("/launches", () =>
-{
-    
-})
-.WithName("GetLaunches");
-
-app.MapGet("/moonphases", () =>
-{
-    
-})
-.WithName("GetMoonPhases");
 
 var summaries = new[]
 {

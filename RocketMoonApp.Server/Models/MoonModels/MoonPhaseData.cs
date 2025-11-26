@@ -14,7 +14,7 @@ namespace RocketMoonApp.Server.Models.MoonModels
         public string Phase { get; set; }
 
         [JsonPropertyName("time")]
-        public TimeSpan Zeit { get; set; }
+        public string Zeit { get; set; }
 
         [JsonPropertyName("year")]
         public int Jahr { get; set; }

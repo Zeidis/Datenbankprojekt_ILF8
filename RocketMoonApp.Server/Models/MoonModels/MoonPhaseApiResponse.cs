@@ -7,6 +7,12 @@ namespace RocketMoonApp.Server.Models.MoonModels
         [JsonPropertyName("apiversion")]
         public string ApiVersion { get; set; }
 
+        [JsonPropertyName("day")]
+        public int? Tag { get; set; }
+
+        [JsonPropertyName("month")]
+        public int? Monat { get; set; }
+
         [JsonPropertyName("numphases")]
         public int Numphases { get; set; }
 
