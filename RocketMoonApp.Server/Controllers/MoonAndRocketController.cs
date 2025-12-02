@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RocketMoonApp.Server.Models.MoonAndRocketModels;
+using RocketMoonApp.Server.Models.MoonModels;
 using RocketMoonApp.Server.Models.RocketModels;
 using System.Net.Http;
 
@@ -18,13 +20,9 @@ namespace RocketMoonApp.Server.Controllers
 
         [HttpGet]
         [Route("GetMoonAndRocket")]
-        public async Task<IActionResult> GetMoonAndRocket([FromQuery] DateTime? seit, [FromQuery] DateTime? bis)
+        public async Task<IActionResult> GetMoonAndRocket([FromQuery] int jahr)
         {
-            // Daten sollen in ISO 8601 Format sein
-            string startDateStr = seit.Value.ToString("yyyy-MM-ddTHH:mm:ssZ");
-            string endDateStr = bis.Value.ToString("yyyy-MM-ddTHH:mm:ssZ");
-
-            string url = $"https://lldev.thespacedevs.com/2.3.0/launches/?net__gte={Uri.EscapeDataString(startDateStr)}&net__lte={Uri.EscapeDataString(endDateStr)}&mode=normal&limit=100";
+            string url = $"https://lldev.thespacedevs.com/2.3.0/launches/?limit=100&mode=normal&year={jahr}";
 
             var httpResponse = await _httpClient.GetAsync(url);
             if (httpResponse.IsSuccessStatusCode)
@@ -41,13 +39,44 @@ namespace RocketMoonApp.Server.Controllers
                     rocketResponse.Results.AddRange(tempResponse.Results);
                 }
 
-                foreach(var result in rocketResponse.Results)
-                {
-                    url = $"https://aa.usno.navy.mil/api/rstt/oneday?date={result.Net:yyyy-M-d}&coords={string.Create(System.Globalization.CultureInfo.InvariantCulture, $"{result.Pad.Latitude},{result.Pad.Longitude}")}";
-                    httpResponse = await _httpClient.GetAsync(url);
+                url = $"https://aa.usno.navy.mil/api/moon/phases/year?year={jahr}";
+                httpResponse = await _httpClient.GetAsync(url);
 
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    var moonResponse = await httpResponse.Content.ReadFromJsonAsync<MoonPhaseApiResponse>();
+
+                    // hier wird drei int: Jahr, Monat, Tag in DateTime konvertiert
+                    var gesammteDaten = moonResponse.Phasedata.Select(p => new
+                    {
+                        PhaseName = p.Phase,
+                        Date = new DateTime(p.Jahr, p.Monat, p.Tag)
+                    }).ToList();
+
+
+                    var results = new List<MoonAndRocketResponse>();
+
+                    foreach (var launch in rocketResponse.Results)
+                    {
+                        // Suchen welche Phase liegt neben RocketStart
+                        var nearest = gesammteDaten.OrderBy(p => Math.Abs((p.Date - launch.Net.Value).TotalDays)).FirstOrDefault();
+
+                        var item = new MoonAndRocketResponse
+                        {
+                            Date = launch.Net.Value,
+                            MoonPhase = nearest?.PhaseName ?? "Unknown",
+                            IsSuccess = launch.Status.Id == 3
+                        };
+
+                        results.Add(item);
+                    }
+
+                    return Ok(results);
                 }
-                return Ok(rocketResponse);
+                else
+                {
+                    return BadRequest(httpResponse);
+                }
             }
             else
             {
