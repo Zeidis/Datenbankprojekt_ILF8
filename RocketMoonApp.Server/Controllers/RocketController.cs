@@ -1,11 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using RocketMoonApp.Server.Models.MoonModels;
+﻿using Microsoft.AspNetCore.Mvc;
 using RocketMoonApp.Server.Models.RocketModels;
-using RocketMoonApp.Server.Models.SunAndMoonModels;
-using System.Net.Http;
-using System.Text.Json;
-using static System.Net.WebRequestMethods;
 
 namespace RocketMoonApp.Server.Controllers
 {
@@ -21,16 +15,16 @@ namespace RocketMoonApp.Server.Controllers
         }
 
         [HttpGet]
-        [Route("LaunchByDate")]
+        [Route("GetLaunchByDate")]
         public async Task<IActionResult> GetLaunchesByDate([FromQuery] DateTime? seit, [FromQuery] DateTime? bis)
         {
             // Daten sollen in ISO 8601 Format sein
             string startDateStr = seit.Value.ToString("yyyy-MM-ddTHH:mm:ssZ");
             string endDateStr = bis.Value.ToString("yyyy-MM-ddTHH:mm:ssZ");
 
-            string queryUrl = $"https://lldev.thespacedevs.com/2.3.0/launches/?net__gte={Uri.EscapeDataString(startDateStr)}&net__lte={Uri.EscapeDataString(endDateStr)}&mode=normal&limit=100";
+            string url = $"https://lldev.thespacedevs.com/2.3.0/launches/?net__gte={Uri.EscapeDataString(startDateStr)}&net__lte={Uri.EscapeDataString(endDateStr)}&mode=normal&limit=100";
 
-            var httpResponse = await _httpClient.GetAsync(queryUrl);
+            var httpResponse = await _httpClient.GetAsync(url);
             if (httpResponse.IsSuccessStatusCode)
             {
                 var response = await httpResponse.Content.ReadFromJsonAsync<LaunchResponse>();
@@ -58,12 +52,12 @@ namespace RocketMoonApp.Server.Controllers
         }
 
         [HttpGet]
-        [Route("LaunchByJear")]
+        [Route("GetLaunchByJear")]
         public async Task<IActionResult> GetLaunchesByJear([FromQuery] int jahr)
         {
-            string queryUrl = $"https://lldev.thespacedevs.com/2.3.0/launches/?limit=100&mode=normal&year={jahr}";
+            string url = $"https://lldev.thespacedevs.com/2.3.0/launches/?limit=100&mode=normal&year={jahr}";
 
-            var httpResponse = await _httpClient.GetAsync(queryUrl);
+            var httpResponse = await _httpClient.GetAsync(url);
             if (httpResponse.IsSuccessStatusCode)
             {
                 var response = await httpResponse.Content.ReadFromJsonAsync<LaunchResponse>();

@@ -4,7 +4,9 @@ using RocketMoonApp.Server.Models.SunAndMoonModels;
 
 namespace RocketMoonApp.Server.Controllers
 {
-    public class MoonPhaseController : Controller
+    [Route("[controller]")]
+    [ApiController]
+    public class MoonPhaseController : ControllerBase
     {
         private readonly HttpClient _httpClient;
 
@@ -14,8 +16,8 @@ namespace RocketMoonApp.Server.Controllers
         }
 
         [HttpGet]
-        [Route("MoonPhase")]
-        public async Task<ActionResult<MoonPhaseApiResponse>> GetMoonPhaseApiResponse(int jahr)
+        [Route("GetMoonPhase")]
+        public async Task<ActionResult<MoonPhaseApiResponse>> GetMoonPhaseApiResponse([FromQuery] int jahr)
         {
             var url = $"https://aa.usno.navy.mil/api/moon/phases/year?year={jahr}";
             var httpResponse = await _httpClient.GetAsync(url);
@@ -28,8 +30,8 @@ namespace RocketMoonApp.Server.Controllers
         }
 
         [HttpGet]
-        [Route("MoonPhaseByDate")]
-        public async Task<ActionResult<MoonPhaseApiResponse>> GetMoonPhaseByDateApiResponse(MoonPhaseApiRequest request)
+        [Route("GetMoonPhaseByDate")]
+        public async Task<ActionResult<MoonPhaseApiResponse>> GetMoonPhaseByDateApiResponse([FromQuery] MoonPhaseApiRequest request)
         {
             var url = $"https://aa.usno.navy.mil/api/moon/phases/date?date={request.Date:yyyy-M-d}&nump={request.Nump}";
             var httpResponse = await _httpClient.GetAsync(url);
@@ -42,8 +44,8 @@ namespace RocketMoonApp.Server.Controllers
         }
 
         [HttpGet]
-        [Route("SunAndMoon")]
-        public async Task<ActionResult<MoonPhaseApiResponse>> GetSunAndMoonApiResponse(SunAndMoonRequest request)
+        [Route("GetSunAndMoon")]
+        public async Task<ActionResult<MoonPhaseApiResponse>> GetSunAndMoonApiResponse([FromQuery] SunAndMoonRequest request)
         {
             var url = $"https://aa.usno.navy.mil/api/rstt/oneday?date={request.Date:yyyy-M-d}&coords={string.Create(System.Globalization.CultureInfo.InvariantCulture, $"{request.Latitude},{request.Longitude}")}";
 

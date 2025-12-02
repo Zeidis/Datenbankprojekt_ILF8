@@ -124,7 +124,7 @@ function App() {
     // Fetch moon phases
     // ----------------------
     async function populateMoonPhaseData() {
-        const response = await fetch('http://localhost:5285/MoonPhase?jahr=2024');
+        const response = await fetch('http://localhost:5285/MoonPhase/GetMoonPhase?jahr=2024');
         if (response.ok) {
             const data: MoonPhaseApiResponse = await response.json();
             setMoonPhases(data);
