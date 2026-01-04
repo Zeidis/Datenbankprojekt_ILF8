@@ -21,7 +21,7 @@ namespace RocketMoonApp.Server.Tests
             _logger = loggerFactory.CreateLogger<LaunchService>();
         }
 
-        
+
         [Fact(Skip = "Integration test - runs against real API")]
         public async Task IntegrationTest_RealApiCall()
         {
@@ -89,7 +89,7 @@ namespace RocketMoonApp.Server.Tests
             Assert.NotEmpty(launches);
 
             var firstLaunch = launches.First();
-            Assert.Equal("test-uuid-123", firstLaunch.Id);
+            Assert.Equal("test-uuid-123", firstLaunch.LaunchId);
             Assert.Equal("Falcon 9", firstLaunch.RocketName);
             Assert.Equal("USA", firstLaunch.Location.CountryName);
             Assert.Equal("Success", firstLaunch.Status);
@@ -113,7 +113,7 @@ namespace RocketMoonApp.Server.Tests
                 ""previous"": null,
                 ""results"": []
             }";
-            
+
             mockHttpMessageHandler.SetupResponse(emptyResponse, HttpStatusCode.OK);
 
             // Act
