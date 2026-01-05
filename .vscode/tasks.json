@@ -1,55 +1,81 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-      {
-        "label": "npm: install",
-        "type": "shell",
-        "command": "npm install",
-        "options": {
-          "cwd": "${workspaceFolder}/rocketmoonapp.client"
-        },
-        "problemMatcher": [],
-        "presentation": {
-          "echo": true,
-          "reveal": "silent",
-          "focus": false,
-          "panel": "shared"
-        }
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "npm: install",
+      "type": "shell",
+      "command": "npm install",
+      "options": {
+        "cwd": "${workspaceFolder}/rocketmoonapp.client"
       },
-      {
-        "label": "build",
-        "command": "dotnet",
-        "type": "process",
-        "args": [
-          "build",
-          "${workspaceFolder}/RocketMoonApp.Server/RocketMoonApp.Server.csproj",
-          "/property:GenerateFullPaths=true",
-          "/consoleloggerparameters:NoSummary"
-        ],
-        "problemMatcher": "$msCompile"
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "build",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/RocketMoonApp.Server/RocketMoonApp.Server.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Start Frontend",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": {
+        "cwd": "${workspaceFolder}/rocketmoonapp.client"
       },
-      {
-        "label": "Start Frontend",
-        "type": "shell",
-        "command": "npm run dev",
-        "options": {
-          "cwd": "${workspaceFolder}/rocketmoonapp.client"
+      "dependsOn": [
+        "npm: install"
+      ],
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^.*$",
+          "file": 1,
+          "location": 2,
+          "message": 3
         },
-        "dependsOn": ["npm: install"],
-        "isBackground": true,
-        "problemMatcher": {
-          "pattern": {
-            "regexp": "^.*$",
-            "file": 1,
-            "location": 2,
-            "message": 3
-          },
-          "background": {
-            "activeOnStart": true,
-            "beginsPattern": ".*",
-            "endsPattern": ".*Local:.*"
-          }
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": ".*Local:.*"
         }
       }
-    ]
-  }
+    },
+    {
+      "label": "rocketmoonapp.client",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/rocketmoonapp.client/rocketmoonapp.client.esproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary;ForceNoAlign;"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "RocketMoonApp.Server",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/RocketMoonApp.Server/RocketMoonApp.Server.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary;ForceNoAlign;"
+      ],
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}
