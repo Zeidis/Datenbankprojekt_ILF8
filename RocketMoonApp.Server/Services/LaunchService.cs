@@ -46,11 +46,12 @@ namespace RocketMoonApp.Server.Services
                             Date = launch.GetProperty("net").GetDateTimeOffset(),
                             Location = new Location
                             {
-                                Id = launch.GetProperty("pad").GetProperty("location").GetProperty("id").GetInt32(),
+                                LocationId = launch.GetProperty("pad").GetProperty("location").GetProperty("id").GetInt32(),
                                 CountryName = launch.GetProperty("pad").GetProperty("country").GetProperty("name").GetString() ?? string.Empty,
                                 Latitude = launch.GetProperty("pad").GetProperty("latitude").GetDouble().ToString() ?? string.Empty,
                                 Longitude = launch.GetProperty("pad").GetProperty("longitude").GetDouble().ToString() ?? string.Empty,
                             },
+
                             Status = launch.GetProperty("status").GetProperty("abbrev").GetString() ?? "Unknown"
                         })
                         .ToList();
