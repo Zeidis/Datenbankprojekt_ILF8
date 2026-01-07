@@ -35,22 +35,23 @@ namespace RocketMoonApp.Server.Services
                     _logger.LogInformation("Making API call to URL: {Url}", url);
 
                     var response = await _httpClient.GetStringAsync(url);
-                    
+
                     data = JsonSerializer.Deserialize<JsonElement>(response);
-                    
+
                     var newlaunches = data.GetProperty("results").EnumerateArray()
                         .Select(launch => new Launch
                         {
-                            Id = launch.GetProperty("id").GetString() ?? string.Empty,
+                            LaunchId = launch.GetProperty("id").GetString() ?? string.Empty,
                             RocketName = launch.GetProperty("rocket").GetProperty("configuration").GetProperty("name").GetString() ?? string.Empty,
                             Date = launch.GetProperty("net").GetDateTimeOffset(),
                             Location = new Location
                             {
-                                Id = launch.GetProperty("pad").GetProperty("location").GetProperty("id").GetInt32(),
+                                LocationId = launch.GetProperty("pad").GetProperty("location").GetProperty("id").GetInt32(),
                                 CountryName = launch.GetProperty("pad").GetProperty("country").GetProperty("name").GetString() ?? string.Empty,
                                 Latitude = launch.GetProperty("pad").GetProperty("latitude").GetDouble().ToString() ?? string.Empty,
                                 Longitude = launch.GetProperty("pad").GetProperty("longitude").GetDouble().ToString() ?? string.Empty,
                             },
+
                             Status = launch.GetProperty("status").GetProperty("abbrev").GetString() ?? "Unknown"
                         })
                         .ToList();

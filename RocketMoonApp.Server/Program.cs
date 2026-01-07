@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using RocketMoonApp.Server.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,11 +10,15 @@ builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 
-builder.Services.AddCors(options => {
-options.AddPolicy("AllowLocalDev", p =>
-    p.WithOrigins("https://localhost:56142")
-     .AllowAnyHeader()
-     .AllowAnyMethod());
+builder.Services.AddDbContext<RocketMoonDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("RocketMoon")));
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalDev", p =>
+        p.WithOrigins("https://localhost:56142")
+         .AllowAnyHeader()
+         .AllowAnyMethod());
 });
 
 var app = builder.Build();
@@ -32,15 +39,15 @@ var summaries = new[]
 
 app.MapGet("/weatherforecast", () =>
 {
-var forecast = Enumerable.Range(1, 5).Select(index =>
-    new WeatherForecast
-    (
-        DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-        Random.Shared.Next(-20, 55),
-        summaries[Random.Shared.Next(summaries.Length)]
-    ))
-    .ToArray();
-return forecast;
+    var forecast = Enumerable.Range(1, 5).Select(index =>
+        new WeatherForecast
+        (
+            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+            Random.Shared.Next(-20, 55),
+            summaries[Random.Shared.Next(summaries.Length)]
+        ))
+        .ToArray();
+    return forecast;
 })
 .WithName("GetWeatherForecast");
 
