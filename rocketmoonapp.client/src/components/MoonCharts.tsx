@@ -9,7 +9,7 @@ import {
   Cell
 } from 'recharts';
 
-// Шляхи до твоїх картинок
+
 const data = [
   { name: 'New Moon', rate: 10, icon: '/moon-phases/elipse_1.svg' },
   { name: 'Waxing Crescent', rate: 50, icon: '/moon-phases/elipse_2.svg' },
@@ -78,7 +78,7 @@ export const MoonChart = () => {
             contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
           />
           
-          {/* */}
+          
           <Bar dataKey="rate" radius={[8, 8, 8, 8]} barSize={32}>
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill="#5b4dff" />
