@@ -1,55 +1,105 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "name": "Launch Backend (ASP.NET Core)",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build",
-        "program": "${workspaceFolder}/RocketMoonApp.Server/bin/Debug/net9.0/RocketMoonApp.Server.dll",
-        "args": [],
-        "cwd": "${workspaceFolder}/RocketMoonApp.Server",
-        "stopAtEntry": false,
-        "serverReadyAction": {
-          "action": "openExternally",
-          "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-        },
-        "env": {
-          "ASPNETCORE_ENVIRONMENT": "Development"
-        },
-        "sourceFileMap": {
-          "/Views": "${workspaceFolder}/Views"
-        }
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Backend (ASP.NET Core)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/RocketMoonApp.Server/bin/Debug/net9.0/RocketMoonApp.Server.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/RocketMoonApp.Server",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
       },
-      {
-        "name": "Launch Frontend (React)",
-        "type": "chrome",
-        "request": "launch",
-        "url": "http://localhost:5173",
-        "webRoot": "${workspaceFolder}/rocketmoonapp.client",
-        "sourceMapPathOverrides": {
-          "webpack:///./src/*": "${webRoot}/src/*"
-        }
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      {
-        "name": "Launch Full App (Backend + Frontend)",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build",
-        "program": "${workspaceFolder}/RocketMoonApp.Server/bin/Debug/net9.0/RocketMoonApp.Server.dll",
-        "args": [],
-        "cwd": "${workspaceFolder}/RocketMoonApp.Server",
-        "stopAtEntry": false,
-        "env": {
-          "ASPNETCORE_ENVIRONMENT": "Development"
-        }
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
       }
-    ],
-    "compounds": [
-      {
-        "name": "Debug Full Stack",
-        "configurations": ["Launch Backend (ASP.NET Core)", "Launch Frontend (React)"],
-        "stopAll": true
+    },
+    {
+      "name": "Launch Frontend (React)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/rocketmoonapp.client",
+      "sourceMapPathOverrides": {
+        "webpack:///./src/*": "${webRoot}/src/*"
       }
-    ]
-  }
+    },
+    {
+      "name": "Launch Full App (Backend + Frontend)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/RocketMoonApp.Server/bin/Debug/net9.0/RocketMoonApp.Server.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/RocketMoonApp.Server",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    {
+      "type": "coreclr",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/rocketmoonapp.client",
+      "program": "${workspaceFolder}/rocketmoonapp.client/c:/Users/SEPT004/source/repos/Septa7/Datenbankprojekt_ILF8/rocketmoonapp.client/dist/rocketmoonapp.client.exe",
+      "stopAtEntry": false,
+      "env": {
+        "DOTNET_CLI_UI_LANGUAGE": "en-US"
+      },
+      "logging": {
+        "moduleLoad": false
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      },
+      "name": "rocketmoonapp.client [console]",
+      "preLaunchTask": "rocketmoonapp.client",
+      "args": []
+    },
+    {
+      "type": "coreclr",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/RocketMoonApp.Server",
+      "program": "${workspaceFolder}/RocketMoonApp.Server/bin/Debug/net9.0/RocketMoonApp.Server.dll",
+      "stopAtEntry": false,
+      "env": {
+        "DOTNET_CLI_UI_LANGUAGE": "en-US",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "logging": {
+        "moduleLoad": false
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      },
+      "name": "RocketMoonApp.Server [http]",
+      "preLaunchTask": "RocketMoonApp.Server",
+      "args": []
+    },
+    {
+      "name": "Attach to a .NET Process",
+      "type": "coreclr",
+      "request": "attach",
+      "logging": {
+        "moduleLoad": false
+      }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug Full Stack",
+      "configurations": [
+        "Launch Backend (ASP.NET Core)",
+        "Launch Frontend (React)"
+      ],
+      "stopAll": true
+    }
+  ]
+}
