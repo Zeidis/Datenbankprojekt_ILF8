@@ -9,16 +9,21 @@ import {
   Cell
 } from 'recharts';
 
+interface MoonChartProps{
+  year: number;
+  rocketName: string;
+} 
+
 
 const data = [
   { name: 'New Moon', rate: 10, icon: '/moon-phases/elipse_1.svg' },
-  { name: 'Waxing Crescent', rate: 50, icon: '/moon-phases/elipse_2.svg' },
+
   { name: 'First Quarter', rate: 70, icon: '/moon-phases/elipse_3.svg' },
-  { name: 'Waxing Gibbous', rate: 45, icon: '/moon-phases/elipse_4.svg' },
+ 
   { name: 'Full Moon', rate: 48, icon: '/moon-phases/elipse_5.svg' },
-  { name: 'Waning Gibbous', rate: 90, icon: '/moon-phases/elipse_6.svg' },
+  
   { name: 'Last Quarter', rate: 60, icon: '/moon-phases/elipse_7.svg' },
-  { name: 'Waning Crescent', rate: 55, icon: '/moon-phases/elipse_8.svg' },
+  
 ];
 
 const CustomTick = (props: any) => {
@@ -40,7 +45,7 @@ const CustomTick = (props: any) => {
   );
 };
 
-export const MoonChart = () => {
+export const MoonChart = ({year , rocketName}:MoonChartProps) => {
   return (
 
     <div style={{ width: '100%', height: '500px' }}>
@@ -49,7 +54,7 @@ export const MoonChart = () => {
         Startfrequenz & Mondphase
       </h3>
       <p style={{ color: '#5b4dff', fontSize: '14px', marginBottom: '30px', fontWeight: 500 }}>
-        2023–2024
+        {rocketName} - {year}
       </p>
       
       <ResponsiveContainer width="100%" height="85%">
@@ -79,7 +84,7 @@ export const MoonChart = () => {
           />
           
           
-          <Bar dataKey="rate" radius={[8, 8, 8, 8]} barSize={32}>
+          <Bar dataKey="rate" radius={[8, 8, 8, 8]} barSize={64}>
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill="#5b4dff" />
             ))}
